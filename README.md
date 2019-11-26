@@ -8,7 +8,7 @@
 
 * Log in [Telegram Core](https://my.telegram.com)
 * Go to *API development tools* 
-* Add **phone_number**, **api_id**, **api_hash** to *api.py*
+* Add **phone_number**, **api_id**, **api_hash** to *main.py*
 
 ### Run Local
 
