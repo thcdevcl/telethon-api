@@ -1,20 +1,23 @@
-# Telethon API
+# flask-telethon-api
 
-*[Telethon](https://tl.telethon.dev/) meets [FastAPI](https://fastapi.tiangolo.com/)*
+## Install
 
-``pip3 install telethon fastapi uvicorn``
+1. Create environment
 
-### Telegram API Key
+`python3 -m venv venv`
 
-* Log in [Telegram Core](https://my.telegram.com)
-* Go to *API development tools* 
-* Add **phone_number**, **api_id**, **api_hash** to *main.py*
+2. Activate environment
+
+`source venv/bin/activate`
+
+3. Install dependencies
+
+`pip install -r requirements.txt`
+
+4. Environment data
+
+Create a `.env` file with needed data
 
 ### Run Local
 
-`` uvicorn main:app --reload ``
- 
-
-
-
-
+`` uvicorn main:app --reload --env-file=.env ``
