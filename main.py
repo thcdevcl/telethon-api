@@ -3,7 +3,6 @@ from fastapi import FastAPI, Header
 from telethon.sync import TelegramClient
 from telethon.tl.functions.messages import GetDialogsRequest
 from telethon.tl.types import InputPeerEmpty
-from pydantic import BaseModel
 from telethon.sessions import StringSession
 
 import os
@@ -18,12 +17,6 @@ if not api_hash:
 
 # Dict to maintain clients signing in
 signing = {}
-
-
-class Dispatch(BaseModel):
-    to: int
-    messages: str
-
 
 app = FastAPI()
 
