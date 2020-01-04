@@ -7,14 +7,6 @@ from telethon.sessions import StringSession
 
 import os
 
-api_id = os.getenv('API_ID', None)
-api_hash = os.getenv('API_HASH', None)
-
-if not api_id:
-    raise ValueError('No api_id provided.')
-if not api_hash:
-    raise ValueError('No api_hash provided.')
-
 # Dict to maintain clients signing in
 signing = {}
 
@@ -23,7 +15,7 @@ app = FastAPI()
 
 # Endpoint to do the sign-in . First, just phone is needed, after that, also the code
 @app.get("/sign-in")
-async def sign_in(*, phone: str = Header(None), uid: str = Header(None), session_string: str = Header(None), code: str = Header(None)):
+async def sign_in(*, api_id: str = Header(None), api_hash: str = Header(None), phone: str = Header(None), uid: str = Header(None), session_string: str = Header(None), code: str = Header(None)):
     if not phone:
         return {"error": "No valid phone"}
     if not uid:
@@ -52,7 +44,7 @@ async def sign_in(*, phone: str = Header(None), uid: str = Header(None), session
 
 # Endpoint to check if the session_string is valid
 @app.get("/check")
-async def check(*, session_string: str = Header(None)):
+async def check(*, api_id: str = Header(None), api_hash: str = Header(None), session_string: str = Header(None)):
     client = TelegramClient(StringSession(session_string), api_id, api_hash)
     await client.connect()
 
@@ -69,7 +61,7 @@ async def check(*, session_string: str = Header(None)):
 
 # I'll maintain this endpoint, but it shouldn't be used
 @app.get("/send-code")
-async def send_code_request(*, phone: str = Header(None), uid: str = Header(None)):
+async def send_code_request(*, api_id: str = Header(None), api_hash: str = Header(None), phone: str = Header(None), uid: str = Header(None)):
     if not phone:
         return {"error": "No valid phone"}
     if not uid:
@@ -88,7 +80,7 @@ async def send_code_request(*, phone: str = Header(None), uid: str = Header(None
 
 # I'll maintain this endpoint, but it shouldn't be used
 @app.get("/verify-code")
-async def send_code_request(*, phone: str = Header(None), code: str = Header(None), uid: str = Header(None)):
+async def send_code_request(*, api_id: str = Header(None), api_hash: str = Header(None), phone: str = Header(None), code: str = Header(None), uid: str = Header(None)):
     if not phone:
         return {"error": "No valid phone"}
     if not code:
@@ -111,7 +103,7 @@ async def send_code_request(*, phone: str = Header(None), code: str = Header(Non
 
 
 @app.get("/get-dialogs")
-async def get_dialogs_request(*, session_string: str = Header(None)):
+async def get_dialogs_request(*, api_id: str = Header(None), api_hash: str = Header(None), session_string: str = Header(None)):
 
     client = TelegramClient(StringSession(session_string), api_id, api_hash)
     await client.connect()
@@ -135,7 +127,7 @@ async def get_dialogs_request(*, session_string: str = Header(None)):
 
 
 @app.get("/get-entity")
-async def get_entity(*, session_string: str = Header(None), entity_id: str = Header(None)):
+async def get_entity(*, api_id: str = Header(None), api_hash: str = Header(None), session_string: str = Header(None), entity_id: str = Header(None)):
 
     client = TelegramClient(StringSession(session_string), api_id, api_hash)
     await client.connect()
@@ -150,7 +142,7 @@ async def get_entity(*, session_string: str = Header(None), entity_id: str = Hea
 
 
 @app.get("/get-participants")
-async def get_participants(*, session_string: str = Header(None), entity_id: str = Header(None)):
+async def get_participants(*, api_id: str = Header(None), api_hash: str = Header(None), session_string: str = Header(None), entity_id: str = Header(None)):
     client = TelegramClient(StringSession(session_string), api_id, api_hash)
     await client.connect()
 
@@ -165,7 +157,7 @@ async def get_participants(*, session_string: str = Header(None), entity_id: str
 
 
 @app.post("/send-message")
-async def send_message(*, session_string: str = Header(None), to: str = Header(None), message: str = Header(None)):
+async def send_message(*, api_id: str = Header(None), api_hash: str = Header(None), session_string: str = Header(None), to: str = Header(None), message: str = Header(None)):
     client = TelegramClient(StringSession(session_string), api_id, api_hash)
     await client.connect()
 
