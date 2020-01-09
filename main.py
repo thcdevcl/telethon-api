@@ -128,6 +128,7 @@ async def get_dialogs_request(*, api_id: str = Header(None), api_hash: str = Hea
 
 @app.get("/get-entity")
 async def get_entity(*, api_id: str = Header(None), api_hash: str = Header(None), session_string: str = Header(None), entity_id: str = Header(None)):
+    print(api_id, api_hash, session_string, entity_id)
 
     client = TelegramClient(StringSession(session_string), api_id, api_hash)
     await client.connect()
@@ -136,7 +137,7 @@ async def get_entity(*, api_id: str = Header(None), api_hash: str = Header(None)
     new_session_string = StringSession.save(client.session)
 
     if is_user_authorized:
-        return await client.get_entity(id)
+        return await client.get_entity(entity_id)
     else:
         return {"authorized": is_user_authorized, "connected": client.is_connected(), "session_string": new_session_string}
 
