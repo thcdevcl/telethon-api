@@ -4,6 +4,7 @@ from telethon.sync import TelegramClient
 from telethon.tl.functions.messages import GetDialogsRequest
 from telethon.tl.types import InputPeerEmpty
 from telethon.sessions import StringSession
+from telethon.tl.types import PeerChat
 
 import os
 
@@ -121,6 +122,7 @@ async def get_dialogs_request(*, api_id: str = Header(None), api_hash: str = Hea
             limit=chunk_size,
             hash=0
         ))
+
         return result.chats
     else:
         return {"authorized": is_user_authorized, "connected": client.is_connected(), "session_string": new_session_string}
@@ -151,8 +153,8 @@ async def get_participants(*, api_id: str = Header(None), api_hash: str = Header
     new_session_string = StringSession.save(client.session)
 
     if is_user_authorized:
-        target = await client.get_entity(id)
-        return await client.get_participants(target, aggressive=True)
+        input_chat = PeerChat(entity_id)
+        return await client.get_participants(entity_id)
     else:
         return {"authorized": is_user_authorized, "connected": client.is_connected(), "session_string": new_session_string}
 
