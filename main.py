@@ -176,7 +176,8 @@ async def get_participants(*, api_id: str = Header(None), api_hash: str = Header
     new_session_string = StringSession.save(client.session)
 
     if is_user_authorized:
-        return await client.get_participants(entity_id)
+        input_chat = PeerChat(int(entity_id))
+        return await client.get_participants(input_chat)
     else:
         return {"authorized": is_user_authorized, "connected": client.is_connected(), "session_string": new_session_string}
 
