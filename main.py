@@ -4,7 +4,7 @@ from telethon.sync import TelegramClient
 from telethon.tl.functions.messages import GetDialogsRequest
 from telethon.tl.types import InputPeerEmpty
 from telethon.sessions import StringSession
-from telethon.tl.types import PeerChat
+from telethon.tl.types import PeerChat, Chat
 
 import os
 
@@ -129,7 +129,13 @@ async def get_dialogs_request(*, api_id: str = Header(None), api_hash: str = Hea
             hash=0
         ))
 
-        return result.chats
+        final_result = []
+
+        for chat in result.chats:
+            if isinstance(chat, Chat):
+                final_result.append(chat)
+
+        return final_result
     else:
         return {"authorized": is_user_authorized, "connected": client.is_connected(), "session_string": new_session_string}
 
