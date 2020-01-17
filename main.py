@@ -204,7 +204,7 @@ async def send_message(*, api_id: str = Header(None), api_hash: str = Header(Non
     new_session_string = StringSession.save(client.session)
 
     if is_user_authorized:
-        res = await client.send_message(to, message)
+        res = await client.send_message(int(to), message)
         return res.out
     else:
         return {"authorized": is_user_authorized, "connected": client.is_connected(), "session_string": new_session_string}
